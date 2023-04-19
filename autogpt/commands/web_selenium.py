@@ -83,12 +83,16 @@ def scrape_text_with_selenium(url: str) -> tuple[WebDriver, str]:
             options.add_argument("--remote-debugging-port=9222")
 
         options.add_argument("--no-sandbox")
+        options.binary_location = (
+            "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
+        )
         if CFG.selenium_headless:
             options.add_argument("--headless")
             options.add_argument("--disable-gpu")
 
         driver = webdriver.Chrome(
-            executable_path=ChromeDriverManager().install(), options=options
+            executable_path="/mnt/c/Users/your_user_name/Auto-GPT/chromedriver",
+            options=options,
         )
     driver.get(url)
 
@@ -139,6 +143,7 @@ def close_browser(driver: WebDriver) -> None:
     Returns:
         None
     """
+    driver.close()
     driver.quit()
 
 

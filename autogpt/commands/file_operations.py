@@ -29,7 +29,8 @@ def check_duplicate_operation(operation: str, filename: str) -> bool:
     """
     log_content = read_file(LOG_FILE)
     log_entry = f"{operation}: {filename}\n"
-    return log_entry in log_content
+    return False
+    #return log_entry in log_content
 
 
 def log_operation(operation: str, filename: str) -> None:

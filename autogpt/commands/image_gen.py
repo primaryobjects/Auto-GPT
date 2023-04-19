@@ -68,20 +68,24 @@ def generate_image_with_hf(prompt: str, filename: str) -> str:
         },
     )
 
-    image = Image.open(io.BytesIO(response.content))
-    print(f"Image Generated for prompt:{prompt}")
+    try:
+        image = Image.open(io.BytesIO(response.content))
+        print(f"Image Generated for prompt:{prompt}")
+        image.save(path_in_workspace(filename))
+        return f"Saved to disk:{filename}"
+    except Exception as e:
+        print(e)
+        print(response.content)
+    return f"Error creating image."
 
-    image.save(path_in_workspace(filename))
 
-    return f"Saved to disk:{filename}"
-
-
-def generate_image_with_dalle(prompt: str, filename: str) -> str:
+def generate_image_with_dalle(prompt: str, filename: str, size: int) -> str:
     """Generate an image with DALL-E.
 
     Args:
         prompt (str): The prompt to use
         filename (str): The filename to save the image to
+        size (int): size of the image
 
     Returns:
         str: The filename of the image
@@ -124,7 +128,7 @@ def generate_image_with_sd_webui(
     Args:
         prompt (str): The prompt to use
         filename (str): The filename to save the image to
-        size (int, optional): The size of the image. Defaults to 256.
+        size (int, optional): The size of the image. Defaults to 512.
         negative_prompt (str, optional): The negative prompt to use. Defaults to "".
         extra (dict, optional): Extra parameters to pass to the API. Defaults to {}.
     Returns:
