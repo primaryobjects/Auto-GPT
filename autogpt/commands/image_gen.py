@@ -65,6 +65,7 @@ def generate_image_with_hf(prompt: str, filename: str) -> str:
         headers=headers,
         json={
             "inputs": prompt,
+            "wait_for_model": True # https://huggingface.co/docs/api-inference/detailed_parameters#fill-mask-task
         },
     )
 
