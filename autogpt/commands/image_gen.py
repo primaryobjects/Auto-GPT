@@ -1,6 +1,8 @@
 """ Image Generation Module for AutoGPT."""
 import io
 import uuid
+import time
+import json
 from base64 import b64decode
 
 import openai
@@ -61,23 +63,37 @@ def generate_image_with_hf(prompt: str, filename: str) -> str:
         "X-Use-Cache": "false",
     }
 
-    response = requests.post(
-        API_URL,
-        headers=headers,
-        json={
-            "inputs": prompt,
-            "wait_for_model": True # https://huggingface.co/docs/api-inference/detailed_parameters#fill-mask-task
-        },
-    )
 
-    try:
-        image = Image.open(io.BytesIO(response.content))
-        print(f"Image Generated for prompt:{prompt}")
-        image.save(path_in_workspace(filename))
-        return f"Saved to disk:{filename}"
-    except Exception as e:
-        print(e)
-        print(response.content)
+    retry_count = 0
+    while retry_count < 10:
+        response = requests.post(
+            API_URL,
+            headers=headers,
+            json={
+                "inputs": prompt
+            },
+        )
+
+        if response.ok:
+            try:
+                image = Image.open(io.BytesIO(response.content))
+                image.save(path_in_workspace(filename))
+                return f"Saved to disk:{filename}"
+            except Exception as e:
+                print(e)
+        else:
+            try:
+                error = json.loads(response.text)
+                if "estimated_time" in error:
+                    delay = error["estimated_time"]
+                    print(response.text)
+                    print("Retrying in ", delay)
+                    time.sleep(delay)
+            except Exception as e:
+                print(e)
+
+        retry_count += 1
+
     return f"Error creating image."
 
 
