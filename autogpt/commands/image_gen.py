@@ -87,7 +87,7 @@ def generate_image_with_hf(prompt: str, filename: str) -> str:
                 if "estimated_time" in error:
                     delay = error["estimated_time"]
                     print(response.text)
-                    print("Retrying in ", delay)
+                    print("Retrying in", delay)
                     time.sleep(delay)
             except Exception as e:
                 print(e)
