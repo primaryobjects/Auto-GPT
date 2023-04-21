@@ -63,15 +63,12 @@ def generate_image_with_hf(prompt: str, filename: str) -> str:
         "X-Use-Cache": "false",
     }
 
-
     retry_count = 0
     while retry_count < 10:
         response = requests.post(
             API_URL,
             headers=headers,
-            json={
-                "inputs": prompt
-            },
+            json={"inputs": prompt},
         )
 
         if response.ok:
