@@ -104,6 +104,7 @@ class Config(metaclass=Singleton):
         self.huggingface_audio_to_text_model = os.getenv(
             "HUGGINGFACE_AUDIO_TO_TEXT_MODEL"
         )
+        self.huggingface_retry = (os.getenv("HUGGINGFACE_RETRY", "True") == "True")
         self.sd_webui_url = os.getenv("SD_WEBUI_URL", "http://localhost:7860")
         self.sd_webui_auth = os.getenv("SD_WEBUI_AUTH")
 

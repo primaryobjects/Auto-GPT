@@ -82,7 +82,7 @@ def generate_image_with_hf(prompt: str, filename: str) -> str:
         else:
             try:
                 error = json.loads(response.text)
-                if "estimated_time" in error:
+                if CFG.huggingface_retry and "estimated_time" in error:
                     delay = error["estimated_time"]
                     print(response.text)
                     print("Retrying in", delay)

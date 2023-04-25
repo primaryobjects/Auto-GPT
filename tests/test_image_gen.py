@@ -117,6 +117,7 @@ class TestImageGenFailure(unittest.TestCase):
         self.workspace_path = Workspace.make_workspace(workspace_path)
         self.config.workspace_path = workspace_path
         self.workspace = Workspace(workspace_path, restrict_to_workspace=True)
+        self.config.huggingface_retry = True
 
     def tearDown(self) -> None:
         shutil.rmtree(self.workspace_path)
@@ -201,6 +202,25 @@ class TestImageGenFailure(unittest.TestCase):
         self.config.huggingface_image_model = "CompVis/stable-diffusion-v1-4"
         with self.assertRaises(ValueError):
             generate_image("astronaut riding a horse", 512)
+
+    @patch("time.sleep")
+    @patch("requests.post")
+    def test_huggingface_fail_no_retry(self, mock_post, mock_sleep):
+       self.config.huggingface_api_token = "1"
+       self.config.huggingface_retry = False
+       self.config.image_provider = "huggingface"
+       self.config.huggingface_image_model = "CompVis/stable-diffusion-v1-4"
+
+       mock_post.return_value.status_code = 500
+       mock_post.return_value.ok = False
+       mock_post.return_value.text = '{"error":"Model CompVis/stable-diffusion-v1-4 is currently loading","estimated_time":0}'
+
+       # Verify request fails.
+       result = generate_image("astronaut riding a horse", 512)
+       self.assertTrue(result == "Error creating image.")
+
+       # Verify retry was not called.
+       mock_sleep.assert_not_called()
 
 
 if __name__ == "__main__":
