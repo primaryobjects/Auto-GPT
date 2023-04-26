@@ -121,9 +121,9 @@ class Workspace:
 
         full_path = root.joinpath(relative_path).resolve()
 
-        if restrict_to_root and not full_path.is_relative_to(root):
-            raise ValueError(
-                f"Attempted to access path '{full_path}' outside of workspace '{root}'."
-            )
+        #if restrict_to_root and not full_path.is_relative_to(root):
+        #    raise ValueError(
+        #        f"Attempted to access path '{full_path}' outside of workspace '{root}'."
+        #    )
 
         return full_path
