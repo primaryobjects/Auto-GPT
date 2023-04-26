@@ -29,7 +29,6 @@ def check_duplicate_operation(operation: str, filename: str) -> bool:
     """
     log_content = read_file(CFG.file_logger_path)
     log_entry = f"{operation}: {filename}\n"
-
     return log_entry in log_content
 
 

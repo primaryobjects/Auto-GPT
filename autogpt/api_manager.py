@@ -5,6 +5,7 @@ import openai
 from autogpt.config import Config
 from autogpt.logs import logger
 from autogpt.modelsinfo import COSTS
+from typing import Optional
 
 cfg = Config()
 print_total_cost = cfg.debug_mode
@@ -27,9 +28,9 @@ class ApiManager:
     def create_chat_completion(
         self,
         messages: list,  # type: ignore
-        model: str | None = None,
+        model: Optional[str] = None,
         temperature: float = cfg.temperature,
-        max_tokens: int | None = None,
+        max_tokens: Optional[int] = None,
         deployment_id=None,
     ) -> str:
         """
@@ -77,9 +78,10 @@ class ApiManager:
         """
         self.total_prompt_tokens += prompt_tokens
         self.total_completion_tokens += completion_tokens
+
         self.total_cost += (
-            prompt_tokens * COSTS[model]["prompt"]
-            + completion_tokens * COSTS[model]["completion"]
+            prompt_tokens * 3#COSTS[model]["prompt"]
+            + completion_tokens * 3#COSTS[model]["completion"]
         ) / 1000
         if print_total_cost:
             print(f"Total running cost: ${self.total_cost:.3f}")
