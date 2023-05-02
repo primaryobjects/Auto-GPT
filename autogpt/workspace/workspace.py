@@ -11,6 +11,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from autogpt.logs import logger
+
 
 class Workspace:
     """A class that represents a workspace for an AutoGPT agent."""
@@ -112,7 +114,11 @@ class Workspace:
         if root is None:
             return Path(relative_path).resolve()
 
-        root, relative_path = Path(root), Path(relative_path)
+        logger.debug(f"Resolving path '{relative_path}' in workspace '{root}'")
+
+        root, relative_path = Path(root).resolve(), Path(relative_path)
+
+        logger.debug(f"Resolved root as '{root}'")
 
         if relative_path.is_absolute():
             raise ValueError(
