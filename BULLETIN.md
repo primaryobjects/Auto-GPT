@@ -2,23 +2,26 @@
 Check out *https://agpt.co*, the official news & updates site for Auto-GPT!
 The documentation also has a place here, at *https://docs.agpt.co*
 
-# 🚀 v0.3.0 Release 🚀
-Over a week and 275 pull requests have passed since v0.2.2, and we are happy to announce
-the release of v0.3.0! *From now on, we will be focusing on major improvements* rather
-than bugfixes, as we feel stability has reached a reasonable level. Most remaining
-issues relate to limitations in prompt generation and the memory system, which will be
-the focus of our efforts for the next release.
+# For contributors 👷🏼
+Since releasing v0.3.0, whave been working on re-architecting the Auto-GPT core to make it more extensible and make room for structural performance-oriented R&D.
 
-Highlights and notable changes in this release:
+Check out the contribution guide on our wiki:
+https://github.com/Significant-Gravitas/Auto-GPT/wiki/Contributing
 
-## Plugin support 🔌
-Auto-GPT now has support for plugins! With plugins, you can extend Auto-GPT's abilities,
-adding support for third-party services and more.
-See https://github.com/Significant-Gravitas/Auto-GPT-Plugins for instructions and available plugins.
+# 🚀 v0.4.1 Release 🚀
+Two weeks and 50+ pull requests have passed since v0.4.0, and we are happy to announce the release of v0.4.1!
 
-## Changes to Docker configuration 🐋
-The workdir has been changed from */home/appuser* to */app*.
-Be sure to update any volume mounts accordingly!
+Highlights and notable changes since v0.4.0:
+- The .env.template is more readable and better explains the purpose of each environment variable.
+- More dependable search
+    - The CUSTOM_SEARCH_ENGINE_ID variable has been replaced to GOOGLE_CUSTOM_SEARCH_ENGINE_ID, make sure you update it.
+- Better read_file
+- More reliable python code execution
+- Lots of JSON error fixes
+- Directory-based plugins
 
-# ⚠️ Command `send_tweet` is DEPRECATED, and will be removed in v0.4.0 ⚠️
-Twitter functionality (and more) is now covered by plugins, see [Plugin support 🔌]
+## Further fixes and changes 🛠️
+Under the hood, we've done a bunch of work improving architectures and streamlining code. Most of that won't be user-visible
+
+## Take a look at the Release Notes on Github for the full changelog!
+https://github.com/Significant-Gravitas/Auto-GPT/releases
