@@ -269,11 +269,13 @@ class Agent:
                     command_name, arguments = plugin.pre_command(
                         command_name, arguments
                     )
-                command_result = execute_command(
-                    command_name=command_name,
-                    arguments=arguments,
-                    agent=self,
-                )
+                command_result = ""
+                if command_name is not None:
+                    command_result = execute_command(
+                        command_name=command_name,
+                        arguments=arguments,
+                        agent=self,
+                    )
                 result = f"Command {command_name} returned: " f"{command_result}"
 
                 result_tlength = count_string_tokens(
